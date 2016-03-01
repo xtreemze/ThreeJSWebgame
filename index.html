@@ -1,0 +1,141 @@
+<html>
+	<head>
+		<title>Three.js 3D Webapp</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+		<style>
+			body {margin: 0;}
+			canvas {width: 100%; height: 100%; z-index:9;}
+			#container {position: absolute; right: 0; z-index:10;}
+		</style>
+	</head>
+	<body>
+		<script src="dat.gui.min.js"></script>
+		<script src="three.js"></script>
+		<script src="orbit.js"></script>
+
+		
+		<div id="container"></div>
+
+		<script type="text/javascript">
+		
+		// Our javascript
+		var scene = new THREE.Scene();
+		var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+		
+		var renderer = new THREE.WebGLRenderer();
+		renderer.setSize( window.innerWidth, window.innerHeight );
+		renderer.shadowMapEnabled = true;
+		document.body.appendChild ( renderer.domElement );
+		
+		var hemiLight = new THREE.HemisphereLight(0x5674a8, 0x6e7676, 0.4 );
+		scene.add(hemiLight);
+		
+		var spotLight = new THREE.SpotLight(0xe2e58b, 0.8);
+		spotLight.position.set(90, 600, 0);
+		spotLight.castShadow = true;
+
+		spotLight.shadowMapWidth = 2048;
+		spotLight.shadowMapHeight = 2048;
+		spotLight.shadowCameraNear = 512;
+		spotLight.shadowCameraFar = 1048;
+		spotLight.shadowCameraFov = 32;
+
+		scene.add(spotLight);
+
+		var SphereGeometry = new THREE.SphereGeometry( 2, 16, 16 );
+		var SphereMaterial = new THREE.MeshPhongMaterial( {color: 0xff40ff } );
+		var sphere = new THREE.Mesh( SphereGeometry, SphereMaterial );
+		sphere.castShadow = true;
+		sphere.receiveShadow = true;
+		scene.add( sphere );
+
+		var torusGeometry = new THREE.TorusGeometry(3, 0.6, 64, 6);
+		var torusMaterial = new THREE.MeshPhongMaterial( {color: 0x00ff00} );
+		var torus = new THREE.Mesh( torusGeometry, torusMaterial );
+		torus.castShadow = true;
+		torus.receiveShadow = true;
+		scene.add( torus );
+
+		camera.position.x = 30;
+		camera.position.z = 30;
+		camera.position.y = 10;
+		camera.lookAt(new THREE.Vector3(0,0,0));
+		camera.position.y -= 6;
+	
+		var planeGeometry = new THREE.BoxGeometry(8, 16, 0.5);
+		var planeMaterial = new THREE.MeshLambertMaterial({color: 0xcccccc});
+		var plane = new THREE.Mesh(planeGeometry, planeMaterial);
+	
+		plane.rotation.x =  -0.5 * Math.PI;
+		plane.position.y = -6;
+		//plane.castShadow = true;
+		plane.receiveShadow = true;
+		scene.add(plane);
+		
+		var plane2 = new THREE.Mesh(planeGeometry, planeMaterial);
+	
+		plane2.rotation.x =  -0.5 * Math.PI;
+		plane2.rotation.y =  -0.5 * Math.PI;
+		plane2.position.y = -2;
+		plane2.position.x = -4;
+		//plane2.castShadow = true;
+		plane2.receiveShadow = true;
+		scene.add(plane2);
+		
+		sphere.position.z = -11;
+		
+		
+		var controls = new function(){
+			this.speed = 0.08;
+		}
+
+
+		var step = 0.04;
+		
+		var gui = new dat.GUI({autoPlace: false});
+		
+		var customContainer = document.getElementById('container');
+		customContainer.appendChild(gui.domElement);
+		
+		gui.add(controls, 'speed',0,0.15);
+
+
+// Resize
+			function onWindowResize() {
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+		window.addEventListener( 'resize', onWindowResize, false );
+		
+		function render() {
+
+
+			requestAnimationFrame( render );
+			
+			
+
+			step += controls.speed;
+			sphere.position.z = 5*(Math.sin(step));
+			sphere.position.y = 2*(Math.cos(step*2)-1);
+			sphere.rotation.x = 5*(Math.sin(step));
+
+			torus.position.y = (Math.sin(step));
+			torus.rotation.z = 6*(Math.sin(step/6));
+
+			renderer.render( scene, camera );
+		}
+		
+		render();
+		
+		THREE.OrbitControls(camera, document.body.canvas);
+
+		</script>
+	</body>
+</html>
