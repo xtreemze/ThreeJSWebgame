@@ -1,24 +1,21 @@
 <html>
-	<head>
-		<title>Three.js 3D Webapp</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-		<style>
-			body {margin: 0;}
+<head>
+	<title>Three.js 3D Webapp</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<style>
+		body {margin: 0;}
 			canvas {width: 100%; height: 100%; z-index:9;}
 			#container {position: absolute; right: 0; z-index:10;}
-		</style>
-	</head>
-	<body>
-		<script src="dat.gui.min.js"></script>
-		<script src="three.js"></script>
-		<script src="orbit.js"></script>
+	</style>
+</head>
 
-		
-		<div id="container"></div>
-
-		<script type="text/javascript">
-		
+<body>
+	<script src="dat.gui.min.js"></script>
+	<script src="three.js"></script>
+	<script src="orbit.js"></script>
+	<div id="container"></div>
+	<script type="text/javascript">
 		// Our javascript
 		var scene = new THREE.Scene();
 		var camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -135,7 +132,7 @@
 		render();
 		
 		THREE.OrbitControls(camera, document.body.canvas);
+	</script>
+</body>
 
-		</script>
-	</body>
 </html>
