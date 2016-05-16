@@ -1,2 +1,3 @@
 # ThreeJSWebgame
-<a href="http://htmlpreview.github.io/?https://raw.githubusercontent.com/xtreemze/ThreeJSWebgame/master/index.html">Play here</a>
+
+[Play here](https://rawgit.com/xtreemze/ThreeJSWebgame/master/index.html)
